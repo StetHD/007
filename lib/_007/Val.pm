@@ -431,7 +431,7 @@ class Val::Object does Val {
 ###     my q = new Q::Literal::Int { value: 42 };
 ###     say(q ~~ Q::Literal::Int);  # --> `True`
 ###     say(q ~~ Q::Literal);       # --> `True`
-###     # say(q ~~ Q);                # --> `True` TODO: this could still be there after #201
+###     say(q ~~ Q);                # --> `True`
 ###     say(q ~~ Int);              # --> `False`
 ###
 ### If you want *exact* type matching (which isn't a very OO thing to want),
