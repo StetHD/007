@@ -331,4 +331,19 @@ use _007::Test;
     parse-error $program, X::Undeclared, "Q::Statement quasis don't leak (II)";
 }
 
+{
+    my $program = q:to/./;
+        macro moo() {
+            return quasi {
+                my x = 7;
+                say(x + 35);
+            }
+        }
+
+        moo();
+        .
+
+    outputs $program, "42\n", "can declare and assign `my` var in quasi (#212)";
+}
+
 done-testing;

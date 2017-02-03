@@ -452,7 +452,7 @@ class Q::Term::Quasi does Q::Term {
             return $thing
                 if $thing ~~ Val;
 
-            return $thing.new(:name($thing.name), :frame($runtime.current-frame))
+            return $thing.new(:name($thing.name), :frame($thing.frame))
                 if $thing ~~ Q::Identifier;
 
             if $thing ~~ Q::Unquote::Prefix {
@@ -479,7 +479,11 @@ class Q::Term::Quasi does Q::Term {
                 aname($attr) => interpolate(avalue($attr, $thing))
             };
 
-            $thing.new(|%attributes);
+            my $newthing = $thing.new(|%attributes);
+            if $newthing ~~ Q::Block {
+                $newthing.static-lexpad = $thing.static-lexpad;
+            }
+            $newthing;
         }
 
         if $.qtype.value eq "Q::Unquote" && $.contents ~~ Q::Unquote {
